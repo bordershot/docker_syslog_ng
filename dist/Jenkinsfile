@@ -1,0 +1,22 @@
+def package_name = 'docker_syslog_ng'
+def description = 'syslog_ng for DD'
+def base_image = 'balabit/syslog-ng'
+def version_number = "latest"
+def docker_registry = 'tardis:5000'
+
+node {
+    docker.withRegistry("${docker_registry}") {
+    
+        stage "build"
+        def app = docker.build "${docker_registry}/${package_name}"
+    
+	stage "test"
+        app.inside {
+	  sh 'echo "Test Passed"'
+	}
+
+        stage "publish"
+        app.push "${version_number}"
+        app.push "${env.BUILD_NUMBER}"
+    }
+}
