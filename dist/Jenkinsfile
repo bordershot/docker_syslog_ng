@@ -2,10 +2,10 @@ def package_name = 'docker_syslog_ng'
 def description = 'syslog_ng for DD'
 def base_image = 'balabit/syslog-ng'
 def version_number = "latest"
-def docker_registry = 'http://tardis:5000'
+def docker_registry = 'tardis:5000'
 
 node {
-  docker.withRegistry("${docker_registry}") {
+  docker.withRegistry("http://${docker_registry}") {
     def app
 
     stage("download") {    
