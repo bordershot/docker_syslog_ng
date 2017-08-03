@@ -5,24 +5,24 @@ def version_number = "latest"
 def docker_registry = 'tardis:5000'
 
 node {
-  docker.withRegistry("http://${docker_registry}") {
-    def app
+  def app
 
-    stage("download") {    
-      git url: 'git@github.com:bordershot/docker_syslog_ng.git'
-    }
+  stage("download") {    
+    git url: 'git@github.com:bordershot/docker_syslog_ng.git'
+  }
 
-    stage("build") {
-      app = docker.build "${docker_registry}/${package_name}"
-    }
+  stage("build") {
+    app = docker.build "${docker_registry}/${package_name}"
+  }
 
-    stage("test") {
-      sh 'echo "Test Passed"'
-    }
+  stage("test") {
+    sh 'echo "Test Passed"'
+  }
 
-    stage("publish") {
-      app.push "${package_name}:${version_number}"
-      app.push "${package_name}:${env.BUILD_NUMBER}"
+  stage("publish") {
+    docker.withRegistry("http://${docker_registry}") {
+      app.push "${version_number}"
+      app.push "${env.BUILD_NUMBER}"
     }
   }
 }
