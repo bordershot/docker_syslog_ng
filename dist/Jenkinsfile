@@ -22,7 +22,7 @@ node {
   }
 
   stage("publish") {
-    docker.withRegistry(uri: "http://${docker_registry}") {
+    docker.withRegistry("http://${docker_registry}") {
       app.push "${version_number}"
       app.push "${env.BUILD_NUMBER}"
     }
