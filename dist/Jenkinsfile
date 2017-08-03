@@ -21,8 +21,8 @@ node {
     }
 
     stage("publish") {
-      app.push "${version_number}"
-      app.push "${env.BUILD_NUMBER}"
+      app.push "${package_name}:${version_number}"
+      app.push "${package_name}:${env.BUILD_NUMBER}"
     }
   }
 }
