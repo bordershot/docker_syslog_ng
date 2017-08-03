@@ -6,12 +6,14 @@ def docker_registry = 'tardis:5000'
 
 node {
   docker.withRegistry("${docker_registry}") {
+    def app
+
     stage("download") {    
       git url: 'git@github.com:bordershot/docker_syslog_ng.git'
     }
 
     stage("build") {
-      def app = docker.build "${docker_registry}/${package_name}"
+      app = docker.build "${docker_registry}/${package_name}"
     }
 
     stage("test") {
