@@ -16,7 +16,9 @@ node {
   }
 
   stage("test") {
-    sh 'echo "Test Passed"'
+    app.inside {
+      sh 'echo "Test Passed"'
+    }
   }
 
   stage("publish") {
